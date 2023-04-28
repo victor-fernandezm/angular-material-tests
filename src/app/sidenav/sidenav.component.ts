@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { SidenavService } from '../sidenav.service';
+import { SidenavRoute } from '../model/routes';
 
 @Component({
   selector: 'app-sidenav',
@@ -10,12 +9,12 @@ import { map, shareReplay } from 'rxjs/operators';
 })
 export class SidenavComponent {
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  routes: SidenavRoute[] = [];
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private sidenavService: SidenavService) {
+    sidenavService.routesObservable.subscribe(arr => {
+      this.routes = arr;
+    })
+  }
 
 }

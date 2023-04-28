@@ -1,14 +1,11 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+  <mat-sidenav #drawer class="sidenav" fixedInViewport>
+    <mat-toolbar>Menu </mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Inicio</a>
-      <a mat-list-item href="#">Examenes</a>
-      <a mat-list-item href="#">Pacientes</a>
-      <a mat-list-item href="#">Registro</a>
+      <a *ngFor="let r of routes" mat-list-item [href]="r.route">
+        <mat-icon *ngIf="r.icon" aria-hidden="false" [fontSet]="r.iconFontSet" style="vertical-align: text-bottom;">{{r.icon}}</mat-icon>
+        {{r.title}}
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -17,12 +14,11 @@
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>angular-material-tests</span>
     </mat-toolbar>
-    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
